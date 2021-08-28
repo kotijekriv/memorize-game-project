@@ -28,7 +28,6 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                     score += 2
                 } else {
                     //ako se karte ne poklapaju
-                    //ode staviti logiku za hasbeenseen i oduzimati bodove za mismatch
                     if cards[chosenIndex].hasBeenSeen == true{
                         score -= 1
                     }else{

@@ -8,10 +8,10 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
-    private(set) var themes: Array<Theme>
-    static var chosenTheme: Theme?
+    private var themes: Array<Theme>
+    private static var chosenTheme: Theme?
     
-    struct Theme {
+    private struct Theme {
         var name: String
         var emojis: [String]
         var numberOfPairsOfCards: Int

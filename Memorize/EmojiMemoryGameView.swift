@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     
     var body: some View {
@@ -19,7 +19,7 @@ struct ContentView: View {
                 
                 Text("SCORE: \(viewModel.score)")
                     .font(.headline)
-                    .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                    .foregroundColor(.blue)
             }
             .padding()
             
@@ -83,9 +83,9 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             let game = EmojiMemoryGame()
-            ContentView(viewModel: game)
+            EmojiMemoryGameView(viewModel: game)
                 .preferredColorScheme(.light)
-            ContentView(viewModel: game)
+            EmojiMemoryGameView(viewModel: game)
                 .preferredColorScheme(.dark)
         }
     }
