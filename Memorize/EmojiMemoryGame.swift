@@ -8,15 +8,9 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
-    private var themes: Array<Theme>
-    private static var chosenTheme: Theme?
+    @Published private(set) var model: MemoryGame<String>
     
-    private struct Theme {
-        var name: String
-        var emojis: [String]
-        var numberOfPairsOfCards: Int
-        var color: Color
-    }
+    private static var chosenTheme: ThemeChooser.Theme?
     
     static func createMemoryGame() -> MemoryGame<String> {
         //unsafe unwrapping LOL xD
@@ -29,46 +23,18 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
         
-    init() {
-        themes = Array<Theme>()
-        
-        themes.append(Theme(name: "Transport",
-                            emojis: ["🚗", "🚕", "🏎", "🚑", "🚜", "✈️", "🛸", "🚀"],
-                            numberOfPairsOfCards: 4,
-                            color: .yellow))
-        themes.append(Theme(name: "Faces",
-                            emojis: ["😀", "🥳", "🥸", "😍", "😇", "🤗", "😡", "🤯", "😈", "🤡", "🥶"],
-                            numberOfPairsOfCards: 5,
-                            color: .pink))
-        themes.append(Theme(name: "Nature",
-                            emojis: ["🐶", "🐢", "🦑", "🐬", "🐛", "🦄", "🦅", "🐧", "🦆", "🐥"],
-                            numberOfPairsOfCards: 6,
-                            color: .green))
-        themes.append(Theme(name: "Tech",
-                            emojis: ["⌚️", "📱", "💻", "⌨️", "🖥", "🖨", "🖱", "🖲", "🕹", "💾", "💿", "📷"],
-                            numberOfPairsOfCards: 6,
-                            color: .gray))
-        themes.append(Theme(name: "Tools",
-                            emojis: ["🪛", "🔧", "🔨", "🛠", "⛏", "🪚", "🔩", "🧲", "🪤"],
-                            numberOfPairsOfCards: 6,
-                            color: .purple))
-        themes.append(Theme(name: "Weapons",
-                            emojis: ["🔫", "💣", "🧨", "🪓", "🔪", "🗡", "⚔️", "🛡", "🚬", "⚰️", "🔮", "⚱️"],
-                            numberOfPairsOfCards: 6,
-                            color: .orange))
-        
-        newGame()
+    init(theme: ThemeChooser.Theme) {
+        EmojiMemoryGame.chosenTheme = theme
+        EmojiMemoryGame.chosenTheme?.emojis.shuffle()
+        model = EmojiMemoryGame.createMemoryGame()
     }
     
-    
-    @Published private var model: MemoryGame<String>?
-    
     var cards: Array<MemoryGame<String>.Card>{
-        return model!.cards
+        return model.cards
     }
     
     var score: Int{
-        return model!.score
+        return model.score
     }
     
     var themeName: String {
@@ -83,25 +49,17 @@ class EmojiMemoryGame: ObservableObject {
         if EmojiMemoryGame.chosenTheme?.color == nil {
             return .accentColor
         }else {
-            return EmojiMemoryGame.chosenTheme!.color
+            return Color(rgbaColor: EmojiMemoryGame.chosenTheme!.color)
         }
     }
     
     // MARK: - Intents(s)
     
     func choose(_ card:MemoryGame<String>.Card) {
-        model!.choose(card)
+        model.choose(card)
     }
     
     func newGame() {
-        if themes.randomElement() == nil{
-            EmojiMemoryGame.chosenTheme = Theme(name: "Error", emojis: ["😡", "🤯", "😈"], numberOfPairsOfCards: 3, color: .accentColor)
-        } else {
-            EmojiMemoryGame.chosenTheme = themes.randomElement()!
-        }
-        
-        EmojiMemoryGame.chosenTheme?.emojis.shuffle()
-        model = EmojiMemoryGame.createMemoryGame()
     }
     
 }

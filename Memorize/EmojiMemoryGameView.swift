@@ -37,17 +37,17 @@ struct EmojiMemoryGameView: View {
                 }
             }
             .padding(.horizontal)
-            Spacer()
-            HStack{
-                Button("NEW GAME"){
-                    viewModel.newGame()
-                }
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .clipShape(Capsule())
-            }
-            .padding()
+//            Spacer()
+//            HStack{
+//                Button("NEW GAME"){
+//                    viewModel.newGame()
+//                }
+//                .padding()
+//                .background(Color.blue)
+//                .foregroundColor(.white)
+//                .clipShape(Capsule())
+//            }
+//            .padding()
         }
         .foregroundColor(viewModel.themeColor)
     }
@@ -82,7 +82,7 @@ struct CardView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            let game = EmojiMemoryGame()
+            let game = EmojiMemoryGame(theme: ThemeChooser.Theme.init(name: "BlaBLa", emojis: ["😀","🔮"], numberOfPairsOfCards: 2, color: .init(color: .red), id: 1))
             EmojiMemoryGameView(viewModel: game)
                 .preferredColorScheme(.light)
             EmojiMemoryGameView(viewModel: game)

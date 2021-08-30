@@ -38,15 +38,14 @@ class ThemeChooserStore: ObservableObject {
         
         if themes.isEmpty {
             print("using built-in themes")
-            insertTheme(named: "Transport", emojis: ["🚗", "🚕", "🏎", "🚑", "🚜", "✈️", "🛸", "🚀"], color: .yellow)
-            insertTheme(named: "Nature", emojis: ["🐶", "🐢", "🦑", "🐬", "🐛", "🦄", "🦅", "🐧", "🦆", "🐥"], color: .green)
-            insertTheme(named: "Tech", emojis: ["⌚️", "📱", "💻", "⌨️", "🖥", "🖨", "🖱", "🖲", "🕹", "💾", "💿", "📷"], color: .gray)
-            insertTheme(named: "Faces", emojis: ["😀", "🥳", "🥸", "😍", "😇", "🤗", "😡", "🤯", "😈", "🤡", "🥶"], color: .pink)
-            insertTheme(named: "Tools", emojis: ["🪛", "🔧", "🔨", "🛠", "⛏", "🪚", "🔩", "🧲", "🪤"], color: .purple)
-            insertTheme(named: "Weapons", emojis: ["🔫", "💣", "🧨", "🪓", "🔪", "🗡", "⚔️", "🛡", "🚬", "⚰️", "🔮", "⚱️"], color: .orange)
+            insertTheme(named: "Transport", emojis: ["🚗", "🚕", "🏎", "🚑", "🚜", "✈️", "🛸", "🚀"], numberOfPairsOfCards: 5, color: .yellow)
+            insertTheme(named: "Nature", emojis: ["🐶", "🐢", "🦑", "🐬", "🐛", "🦄", "🦅", "🐧", "🦆", "🐥"], numberOfPairsOfCards: 5, color: .green)
+            insertTheme(named: "Tech", emojis: ["⌚️", "📱", "💻", "⌨️", "🖥", "🖨", "🖱", "🖲", "🕹", "💾", "💿", "📷"], numberOfPairsOfCards: 6, color: .gray)
+            insertTheme(named: "Faces", emojis: ["😀", "🥳", "🥸", "😍", "😇", "🤗", "😡", "🤯", "😈", "🤡", "🥶"], numberOfPairsOfCards: 7, color: .pink)
+            insertTheme(named: "Tools", emojis: ["🪛", "🔧", "🔨", "🛠", "⛏", "🪚", "🔩", "🧲", "🪤"], numberOfPairsOfCards: 6, color: .purple)
+            insertTheme(named: "Weapons", emojis: ["🔫", "💣", "🧨", "🪓", "🔪", "🗡", "⚔️", "🛡", "🚬", "⚰️", "🔮", "⚱️"], numberOfPairsOfCards: 5, color: .orange)
         } else {
             print("successfully loaded themes from UserDefaults: \(themes)")
-            print(RGBAColor(color: .red))
         }
         
     }
@@ -54,10 +53,10 @@ class ThemeChooserStore: ObservableObject {
     
     // MARK: -Intent
     
-    func insertTheme(named name: String, emojis: [String]? = nil, color: Color, at index: Int = 0){
+    func insertTheme(named name: String, emojis: [String]? = nil, numberOfPairsOfCards: Int, color: Color, at index: Int = 0){
         let unique = (themes.max(by: { $0.id < $1.id })?.id ?? 0) + 1
         let chosenColor = RGBAColor(color: color)
-        let theme = ThemeChooser.Theme(name: name, emojis: emojis ?? [""], color: chosenColor, id: unique)
+        let theme = ThemeChooser.Theme(name: name, emojis: emojis ?? [""], numberOfPairsOfCards: numberOfPairsOfCards, color: chosenColor, id: unique)
         let safeIndex = min(max(index, 0), themes.count)
         themes.insert(theme, at: safeIndex)
     }

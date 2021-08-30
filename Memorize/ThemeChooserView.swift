@@ -17,15 +17,14 @@ struct ThemeChooserView: View {
             List{
                 ForEach(store.themes){ theme in
                     //TODO NAPRAVITI DESTINACIJU
-                    NavigationLink(destination: Text(theme.name)){
+                    NavigationLink(destination: EmojiMemoryGameView(viewModel: EmojiMemoryGame(theme: store.themes[theme]))){
                         VStack (alignment: .leading) {
                             Text(theme.name)
                                 .font(.headline)
+                                .foregroundColor(Color(rgbaColor: theme.color))
                             HStack {
-                                Text("\(String(theme.emojis.count)) cards")
-                                Text(theme.emojis[0] + theme.emojis[1])
-                              //TODO NAPRAVITI BOJE
-                                Color(rgbaColor: theme.color)
+                                Text("\(String(theme.numberOfPairsOfCards)) pairs")
+                                Text(emojiPreview(theme.emojis))
                             }
                         }
                     }
@@ -33,6 +32,16 @@ struct ThemeChooserView: View {
                 }
             }
             .navigationTitle("Memorize")
+        }
+    }
+    
+    func emojiPreview(_ emojis: [String]) -> String {
+        if emojis.count > 2 {
+            return emojis[0] + emojis[1] + emojis[2]
+        } else if emojis.count > 1 {
+            return emojis[0] + emojis[1]
+        } else {
+            return "??"
         }
     }
 }

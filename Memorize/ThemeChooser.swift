@@ -11,6 +11,7 @@ struct ThemeChooser: Codable{
     struct Theme: Identifiable, Codable, Hashable {
         var name: String
         var emojis: [String]
+        var numberOfPairsOfCards: Int
         var color: RGBAColor
         var id: Int
     }
