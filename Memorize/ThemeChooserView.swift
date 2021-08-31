@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ThemeChooserView: View {
     @EnvironmentObject var store: ThemeChooserStore
-    
+//
     @State private var editMode: EditMode = .inactive
     
     var body: some View {
@@ -27,11 +27,29 @@ struct ThemeChooserView: View {
                                 Text(emojiPreview(theme.emojis))
                             }
                         }
+                        .gesture(editMode == .active ? editTap(theme): nil)
                     }
                     
                 }
+                .onDelete { indexSet in
+                    store.themes.remove(atOffsets: indexSet)
+                }
+                .onMove { indexSet, newOffset in
+                    store.themes.move(fromOffsets: indexSet, toOffset: newOffset)
+                }
             }
             .navigationTitle("Memorize")
+            .toolbar{
+                ToolbarItem{ EditButton() }
+                ToolbarItem{}
+            }
+            .environment(\.editMode, $editMode)
+        }
+    }
+    
+    func editTap(_ theme: ThemeChooser.Theme) -> some Gesture {
+        TapGesture().onEnded {
+//            ThemeEditor(theme: $store.themes[theme])
         }
     }
     

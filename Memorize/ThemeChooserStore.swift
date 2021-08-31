@@ -60,4 +60,12 @@ class ThemeChooserStore: ObservableObject {
         let safeIndex = min(max(index, 0), themes.count)
         themes.insert(theme, at: safeIndex)
     }
+    
+    @discardableResult
+    func removeTheme(at index: Int) -> Int{
+        if themes.count > 1, themes.indices.contains(index) {
+            themes.remove(at: index)
+        }
+        return index % themes.count
+    }
 }
